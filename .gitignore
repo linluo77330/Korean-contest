@@ -1,0 +1,9 @@
+.DS_Store
+.local-run/
+__pycache__/
+.env
+.env.*
+*.pem
+*.key
+*.zip
+node_modules/

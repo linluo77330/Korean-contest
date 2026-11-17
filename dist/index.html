@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CloudBridge 跨境数字服务中断保险全流程演示：投保问卷、双模块风险定价、客户报案、核赔调查与结案。">
+  <meta name="theme-color" content="#ffffff">
+  <title>CloudBridge · 跨境数字服务中断保险</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="ui-theme.css">
+  <link rel="stylesheet" href="m2-map.css">
+  <script defer src="engine.js"></script>
+  <script defer src="data.js"></script>
+  <script defer src="world-map.js"></script>
+  <script defer src="select-ui.js"></script>
+  <script defer src="m2-risk.js"></script>
+  <script defer src="m2-map.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">跳到工作区</a>
+  <aside class="sidebar" id="sidebar" aria-label="保险演示导航"></aside>
+  <div class="scrim" id="scrim"></div>
+  <div class="workspace">
+    <header class="topbar" id="topbar"></header>
+    <main id="main" tabindex="-1"></main>
+    <footer class="footer"><span><strong>CloudBridge</strong> 跨境数字服务中断保险</span></footer>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="dialog"><div id="dialog-content"></div></dialog>
+</body>
+</html>

@@ -1143,7 +1143,7 @@ window.CBLocaleMessages = {
     "算定基準・出典 ↗"
   ],
   "M1 日常中断": [
-    "M1 Operational outage",
+    "M1 Ordinary outage",
     "M1 일반 중단",
     "M1 通常の中断"
   ],
@@ -1308,7 +1308,7 @@ window.CBLocaleMessages = {
     "/ 年"
   ],
   "M1 日常数字中断": [
-    "M1 Operational outage",
+    "M1 Ordinary outage",
     "M1 일반 디지털 중단",
     "M1 通常のデジタル中断"
   ],
@@ -2118,7 +2118,7 @@ window.CBLocaleMessages = {
     "保険契約の年間総限度額（CNY）"
   ],
   "M1 普通中断": [
-    "M1 Operational outage",
+    "M1 Ordinary outage",
     "M1 일반 중단",
     "M1 通常の中断"
   ],
@@ -3343,7 +3343,7 @@ window.CBLocaleMessages = {
     "モジュール比較"
   ],
   "普通中断": [
-    "Operational outage",
+    "Ordinary outage",
     "일반 중단",
     "通常の中断"
   ],
@@ -10735,7 +10735,7 @@ Object.assign(window.CBLocaleMessages,{
   function showArchives(){modal('项目归档',state.archived.length?`<div class="archive-list">${state.archived.map(a=>`<article class="archive-row"><div><h3>${user(a.company||'未命名企业')}</h3><p data-no-translate>${esc(a.id)} · ${esc(a.archivedAt)}</p><span>${stageName(a)}</span></div><div class="archive-actions"><button class="btn small" data-archive-view="${esc(a.id)}">查看档案</button><button class="btn small" data-archive-export="${esc(a.id)}">导出</button><button class="btn small primary" data-archive-restore="${esc(a.id)}">恢复项目</button></div></article>`).join('')}</div>`:'<div class="empty"><h3>暂无归档项目</h3></div>',btn('关闭','close-dialog'));}
   function archiveCurrent(){const a=app();if(!a)return;state.archived.unshift({...clone(a),archivedAt:now()});state.apps=state.apps.filter(x=>x.id!==a.id);state.selected=state.apps[0]?.id||null;ui.formStep=0;render();toast('项目已归档');}
   function archiveDetail(id){const a=state.archived.find(a=>a.id===id);if(!a)return;const t=a.policy?.terms||a;modal('归档项目档案',`<div class="archive-summary"><h3>${user(a.company||'未命名企业')}</h3>${kv('项目编号',esc(a.id))}${kv('归档时间',esc(a.archivedAt))}${kv('项目状态',stageName(a))}${kv('保单编号',esc(a.policy?.id||'—'))}${kv('报价金额',a.quote?esc(a.currency)+' '+money(a.quote.total):'—')}${kv('赔案状态',a.claim?.paid?'已结案':a.claim?.submitted?'已报案':'未报案')}<h3>列明服务附表</h3>${t.services.map(s=>`<p data-user-text>${esc(s.provider+' · '+s.service+' · '+s.business)}</p>`).join('')}<h3>业务轨迹</h3>${historyView(a.history||[])}<details><summary>完整业务档案</summary><pre data-no-translate class="archive-json">${esc(JSON.stringify(a,null,2))}</pre></details></div>`,`<button class="btn" data-action="archives">返回归档</button><button class="btn" data-archive-export="${esc(id)}">导出</button><button class="btn primary" data-archive-restore="${esc(id)}">恢复项目</button>`);}
-  function go(view,tab){ui.view=view;if(view==='underwriting')ui.uwTab=['risk','pricing','policy'].includes(tab)?tab:'risk';if(view==='claim')ui.claimTab=['report','loss','materials'].includes(tab)?tab:'report';if(tab){if(view==='underwriting')ui.uwTab=tab;if(view==='assessment')ui.reviewTab=tab;}render();window.scrollTo({top:0,behavior:'instant'});$('#sidebar').classList.remove('open');$('#scrim').classList.remove('show');}
+  function go(view,tab){ui.view=view;if(view==='underwriting'){ui.uwTab=['risk','pricing','policy'].includes(tab)?tab:'risk';if(ui.uwTab==='risk')ui.mapModule='m1';}if(view==='claim')ui.claimTab=['report','loss','materials'].includes(tab)?tab:'report';if(tab){if(view==='underwriting')ui.uwTab=tab;if(view==='assessment')ui.reviewTab=tab;}render();window.scrollTo({top:0,behavior:'instant'});$('#sidebar').classList.remove('open');$('#scrim').classList.remove('show');}
   function worldMap(){
     const group=ui.mapModule==='m2'?'m2':'m1';
     if(window.CBRiskAssets&&!CBRiskAssets.ready(group)){
@@ -10907,7 +10907,7 @@ Object.assign(window.CBLocaleMessages,{
     if(el.dataset.view){go(el.dataset.view);return;}
     if(el.dataset.guideView){closeModal();go(el.dataset.guideView);return;}
     if(el.dataset.select){state.selected=el.dataset.select;ui.region=null;ui.m2Service=null;ui.exposureServices=[];render();return;}
-    if(el.dataset.uwtab){ui.uwTab=el.dataset.uwtab;render();return;}
+    if(el.dataset.uwtab){ui.uwTab=el.dataset.uwtab;if(ui.uwTab==='risk')ui.mapModule='m1';render();return;}
     if(el.dataset.claimtab){ui.claimTab=el.dataset.claimtab;render();return;}
     if(el.dataset.reviewtab){ui.reviewTab=el.dataset.reviewtab;render();return;}
     if(el.dataset.modeltab){ui.modelTab=el.dataset.modeltab;render();return;}

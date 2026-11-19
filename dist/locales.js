@@ -256,7 +256,7 @@ window.CBLocaleMessages = {
     "算定基準・出典 ↗"
   ],
   "M1 日常中断": [
-    "M1 Operational outage",
+    "M1 Ordinary outage",
     "M1 일반 중단",
     "M1 通常の中断"
   ],
@@ -421,7 +421,7 @@ window.CBLocaleMessages = {
     "/ 年"
   ],
   "M1 日常数字中断": [
-    "M1 Operational outage",
+    "M1 Ordinary outage",
     "M1 일반 디지털 중단",
     "M1 通常のデジタル中断"
   ],
@@ -1231,7 +1231,7 @@ window.CBLocaleMessages = {
     "保険契約の年間総限度額（CNY）"
   ],
   "M1 普通中断": [
-    "M1 Operational outage",
+    "M1 Ordinary outage",
     "M1 일반 중단",
     "M1 通常の中断"
   ],
@@ -2456,7 +2456,7 @@ window.CBLocaleMessages = {
     "モジュール比較"
   ],
   "普通中断": [
-    "Operational outage",
+    "Ordinary outage",
     "일반 중단",
     "通常の中断"
   ],

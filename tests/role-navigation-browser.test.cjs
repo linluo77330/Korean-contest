@@ -6,11 +6,14 @@ const {chromium,webkit}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
  await p.route('http://cloudbridge-http.test/**',r=>r.fulfill({path:path.join(__dirname,'../dist',new URL(r.request().url()).pathname==='/'?'index.html':decodeURIComponent(new URL(r.request().url()).pathname))}));
  const click=async s=>{await p.locator(s).first().click();await p.waitForTimeout(60)};
  const role=async r=>assert.equal(await p.locator('body').getAttribute('data-role'),r);
- const risk=async()=>{assert.equal(await p.locator('[data-uwtab].active').getAttribute('data-uwtab'),'risk');assert.ok(await p.locator('.risk-map-card').isVisible());await role('insurer')};
+ const risk=async()=>{assert.equal(await p.locator('[data-uwtab].active').getAttribute('data-uwtab'),'risk');assert.ok(await p.locator('.risk-map-card').isVisible());assert.equal(await p.locator('[data-map].active').getAttribute('data-map'),'m1');await role('insurer')};
  await p.goto('http://cloudbridge-http.test/');await click('[data-action=new-app]');
  for(const lang of ['en','zh-CN','ko','ja']){
   await p.evaluate(l=>CBI18n.setLanguage(l),lang);await click('[data-view=application]');await role('insured');await click('[data-formstep="0"]');
   await p.locator('[data-a=company]').fill('CloudBridge navigation');await click('[data-action=go-underwriting]');await risk();
+  if(lang==='en')assert.equal(await p.locator('[data-map=m1]').innerText(),'M1 Ordinary outage');
+  await click('[data-map=m2]');await click('[data-uwtab=pricing]');await click('[data-uwtab=risk]');await risk();
+  await click('[data-map=m2]');await click('[data-view=application]');await click('[data-view=underwriting]');await risk();
   await click('[data-uwtab=pricing]');await click('[data-view=application]');await click('[data-view=underwriting]');await risk();
   await click('[data-view=application]');await click('[data-formstep="4"]');await click('[data-action=submit-application]');await risk();
   await click('[data-action=pricing-tab]');assert.equal(await p.locator('[data-uwtab].active').getAttribute('data-uwtab'),'pricing');

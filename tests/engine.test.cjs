@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict');
 const E=require('../dist/engine.js');
 global.window=global;
-require('../dist/data.js');
+require('../dist/external-events.js');require('../dist/data.js');
 const clone=x=>structuredClone(x);
 const base=()=>clone(CBData.apps[0]);
 let passed=0;
@@ -25,6 +25,6 @@ test('最长赔偿时长按可赔分钟限制',()=>{const a=base();a.maxHours=.5
 test('定价M1和M2相加，并可被参数影响',()=>{const a=base(),m=clone(CBData.model),q=E.quote(a,m,CBData.regions);assert.equal(q.total,E.round(q.p1+q.p2));m.duration1=4;assert.ok(E.quote(a,m,CBData.regions).total>q.total);a.m2=false;assert.equal(E.quote(a,m,CBData.regions).p2,0);});
 test('零年度概率对应零保费',()=>{const a=base(),m=clone(CBData.model);m.regionOverrides['us-east']={m1:0,m2:0};assert.equal(E.quote(a,m,CBData.regions).total,0);});
 test('同一业务组多依赖必须先合并，阻止重复定价',()=>{const a=base();a.services.push({...clone(a.services[0]),id:'SVC-02'});assert.ok(E.validateApplication(a).some(x=>x.includes('重复业务组')));});
-test('M2快捷案例在改名后仍保持物理事件情景',()=>{const a=clone(CBData.apps[2]);a.id='CB-A-DEMO-M2';a.sampleKind='m2';const c=CBData.claim(a);assert.equal(c.module,'m2');assert.equal(c.reportedCause,'physical');assert.ok(c.description.includes('物理事件'));});
+test('M2实体外溢案例可在统一模块下重现',()=>{const a=clone(CBData.apps[2]);a.id='CB-A-DEMO-M2';a.sampleKind='m2-physical';const c=CBData.claim(a);assert.equal(c.module,'m2');assert.equal(c.reportedCause,'physical');assert.ok(c.description.includes('物理事件'));});
 test('AI API案例损失依据使用本业务的单笔贡献毛利',()=>{const a=clone(CBData.apps[1]),c=CBData.claim(a);assert.equal(c.taskMargin,a.services[0].margin);assert.equal(c.declaredLoss,c.lostTasks*c.taskMargin);});
 console.log(`${passed} meaningful insurance rule checks passed.`);

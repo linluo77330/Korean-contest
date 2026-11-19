@@ -1,0 +1,43 @@
+{
+  "version": "CB-UNIFIED-2.0",
+  "date": "2026-11-18",
+  "local_preview": "http://127.0.0.1:8787/#application",
+  "source_of_truth": "统一精算报告 CB-UNIFIED-2.0",
+  "typical_premium_usd": 4811.96,
+  "typical_capital_cost_usd": 270.2,
+  "policy_prices_reconciled": 100,
+  "unified_rule_checks": 20,
+  "additional_evidence_checks": 2,
+  "legacy_engine_checks": 21,
+  "external_event_checks": 7,
+  "hazard_history_check": "passed",
+  "browser": "passed: four languages, 1440/768/390 widths, financial controls, binding, M2 multi-business settlement, AI cap, exports, maps, profile pagination, quote invalidation, CNY snapshot preservation",
+  "scenario_count": 10,
+  "years_per_scenario": 200000,
+  "ai_claim_usd": 560,
+  "m2_shared_claim_usd": 2000,
+  "github_pushed": false,
+  "server_deployed": false,
+  "limitation": "Risk outputs are frozen report scenarios; unmatched exposures require actuarial recomputation. No real insurance, reinsurance or payment interface.",
+  "application_steps": 5,
+  "default_application_profile": "CBU-007",
+  "ola": "Demo agreements 99% timely success / 30 seconds / 5-minute breach and recovery windows; not empirically calibrated. Bound terms preserved; changes invalidate research quotes.",
+  "ola_browser": "passed: five-step AI default, removed fields, business mapping, four-language desktop/mobile layouts, bound OLA snapshot, 99% monitor line and liability reference",
+  "risk_map_browser": "passed: shared basemap, matching map dimensions/colour, M1 region filtering, wheel/drag/zoom/reset, independent M1/M2 viewports, M2 cell selection without zoom, four languages at 1440/390 widths",
+  "m1_public_catalog": {
+    "version": "M1-PUBLIC-20261118",
+    "count": 5582,
+    "providers": {
+      "Google Cloud": 545,
+      "OpenAI": 1016,
+      "Anthropic": 949,
+      "AWS": 30,
+      "Azure": 50,
+      "Cloudflare": 2992
+    },
+    "source_responses": 854,
+    "frozen_pricing_unchanged": true,
+    "catalog_rules": "passed",
+    "catalog_browser": "passed"
+  }
+}

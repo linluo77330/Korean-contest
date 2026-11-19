@@ -1,16 +1,20 @@
-# CloudBridge 保险演示
+# CloudBridge
 
-企业数字服务中断保险前端，覆盖传统云服务与 AI API。中文界面，五个模块：承保、核保、理赔、核赔、定价模型。包含 M2 地缘政治外溢三层风险地图及参数赔付参考报价。
+跨境数字服务中断保险前端演示。当前版本：**CB-CONFLICT-3.0**，更新日期：**2026-11-19**。
 
-## 部署内容
+这是无需编译的静态网站，网站根目录为 **`dist/`**。没有 npm 安装或打包步骤，Nginx 可直接提供整个 `dist/` 目录；事件目录、地图、翻译及报告必须一并部署。
 
-- `dist/` 是完整静态网站，无需安装依赖或执行构建。
-- 无服务器端接口；保单、赔案、报价、监测和支付均为演示。
-- 恢复服务商城已移除。
-- 所有页面脚本、样式和地图均随项目提供，不依赖外部 CDN。
-- 业务状态保存在浏览器 localStorage；域名、浏览器或设备改变时不会自动迁移。地图中新参考模型与原保单报价独立。
+## 当前内容
 
-## 本地演示
+- 承保、核保、理赔、核赔、定价模型五个模块；项目支持新建及归档。
+- 中文、英文、韩文、日文切换，覆盖页面与导出报告。
+- M1 公开故障目录、厂商/产品/年份/区域筛选及承保服务关联分析。
+- M2 多年危险性地图、逐年趋势、逐格事件目录及云服务风险暴露视图；支持拖动和手势缩放。
+- 统一 USD 定价：100 张差异化示例保单、逐事件超赔、净损失封顶及四层成本展示。
+- 理赔入口默认打开事故报告；核定和结案无需财务授权声明或人工复核勾选步骤。
+- M2 按冲突损坏数字依赖并传导至列明服务中断的责任范围演示。
+
+## 本地运行
 
 需要 Python 3：
 
@@ -18,52 +22,46 @@
 python3 local_server.py start
 ```
 
-打开 http://127.0.0.1:8787/ 。M2 地图入口为 http://127.0.0.1:8787/#m2 。
+打开 http://127.0.0.1:8787/ 。停止服务使用 `python3 local_server.py stop`。
+
+## Ubuntu 与 Nginx 部署
+
+首次克隆：
 
 ```sh
-python3 local_server.py status
-python3 local_server.py stop
+git clone https://github.com/linluo77330/Korean-contest.git ~/cloudbridge-demo
 ```
 
-本地启动器仅监听回环地址；它不是服务器公网托管服务。
-
-## 服务器部署
-
-使用 Nginx 或其他静态网站服务，将网站根目录指向本仓库的 `dist/`。
-
-推荐目录：`/var/www/cloudbridge/dist`。
-
-1. 在服务器安装 Git 和 Nginx。
-2. 从本仓库克隆代码到 `/var/www/cloudbridge`。私有仓库使用只读部署密钥或已授权账号，勿将访问令牌写入仓库或命令行。
-3. 参考 `deploy/nginx.conf` 配置独立站点。按照服务器现有站点安排端口、域名和目录，避免覆盖其他网站。
-4. 检查配置成功后重新加载 Nginx，并在服务器网络规则中允许网站使用的端口。
-5. 绑定域名并配置 HTTPS。现场演示前使用韩国网络测试页面、刷新和交互。
-
-`deploy/nginx.conf` 是 HTTP 配置示例，域名与 HTTPS 证书需按服务器环境配置；未在目标服务器运行验证。
-
-根页面 `index.html` 位于 `dist/`，不要将仓库根目录或 `.git/` 作为公网文件目录。此项目无需公开本地演示用的 8787 端口。
-
-## 检查
-
-需要 Node.js：
+已克隆过的服务器，在仓库内更新：
 
 ```sh
-node --check dist/app.js
-node --check dist/m2-map.js
-node --check dist/m2-risk.js
-node tests/engine.test.cjs
-node tests/m2-risk.test.cjs
+cd ~/cloudbridge-demo
+git pull --ff-only origin main
 ```
 
-## 目录
+Nginx 的实际 `root` 必须指向这份代码的 `dist/`，或指向复制了整个 `dist/` 内容的发布目录。`deploy/nginx.conf` 提供配置示例；按服务器已有域名、目录和虚拟主机配置调整，避免与原网站冲突。如果当前网站使用单独的发布目录，还需把更新后的 `dist/` 同步到该目录。仅 `git pull` 不会自动更新另一份发布目录。
 
-- `dist/app.js`：页面与演示状态流转。
-- `dist/engine.js`：原定价与核赔规则。
-- `dist/data.js`：样例数据及公开事件链接。
-- `dist/m2-risk.js`、`dist/m2-map.js`、`dist/m2-map.css`：M2参考模型与地图。
-- `tests/`：保险核心规则和 M2 计算检查。
-- `PROJECT_NOTES.md`：项目功能、数据口径和历史开发记录。
+修改 Nginx 配置后执行：
 
-## 数据与资源
+```sh
+sudo nginx -t && sudo systemctl reload nginx
+```
 
-各地区概率、恢复情景和价格为演示假设；不表示实时风险、真实报价或承保承诺。底图使用 Natural Earth 公共领域物理海岸线；区域点位是代表位置，不是实际设施地址。https://www.naturalearthdata.com/about/terms-of-use/
+更新静态文件本身无需重启 PM2。浏览器刷新即可读取最新资源；遇到缓存使用强制刷新。源代码上传 GitHub 与云服务器更新是两个独立步骤。
+
+## 数据与业务状态
+
+- 静态地图与公开事件数据随站点发布，详细出处见 [数据来源](dist/DATA-SOURCES.md)。该文件部分后续章节记录历史模型，当前责任与定价以 [当前说明](docs/CONFLICT_SCOPE_3.md) 和 `dist/pricing.js` 为准。
+- 页面中的报价、监测回放、赔案和支付流程用于演示，不接入真实支付或实时客户云账户。
+- 企业填写内容和业务记录保存在访问者浏览器；仓库不包含本地浏览器中的客户档案。归档也由浏览器保存。
+- `PROJECT_NOTES.md` 和部分 `docs/` 文档保留历史版本说明。
+
+## 验证
+
+需要 Node.js；这些检查不依赖 npm 包：
+
+```sh
+node --test tests/engine.test.cjs tests/external-events.test.cjs tests/hazard-history.test.cjs tests/m1-catalog.test.cjs tests/unified.test.cjs
+```
+
+当前四语言和核赔浏览器验收入口：`tests/i18n-claims-browser.test.cjs`。需提供 `PLAYWRIGHT_MODULE`、`CHROME_PATH` 并启动本地服务。它使用独立会话，覆盖四语言页面、响应式布局、HTML 导出、事故报告优先以及 M1/M2 核定结案。其余浏览器测试含历史流程断言。

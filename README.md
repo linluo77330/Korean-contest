@@ -83,3 +83,9 @@ node --test tests/engine.test.cjs tests/external-events.test.cjs tests/hazard-hi
 **部署仍只需拉取并复制整个 dist 目录，必须包含 packed 文件夹与 app.bundle.js/css。** 已提交可直接部署的生成文件。开发者修改 dist 中的源 JS/CSS/数据后，须运行 `python3 scripts/build-web-assets.py` 重新生成 bundle、压缩数据和带内容版本号的入口；不要手工修改生成文件。顺序清单位于 `scripts/web-assets.json`。
 
 验证：`tests/lazy-loading-browser.test.cjs` 覆盖慢网、失败重试、压缩目录、缓存复用及兼容回退；`tests/role-navigation-browser.test.cjs` 覆盖 Chrome/WebKit 四语言导航、角色配色、手机布局及完整赔案。全部原始数据与压缩数据已核对一致。
+
+## 首屏后后台预加载（2026-11-19）
+
+首屏绘制后等待约 1.2 秒，再利用空闲时间依次低优先级预加载 M1、M2 地图数据。后台完成不刷新正在填写的页面；隐藏标签页暂停发起下一项预取。提前进入地图会复用正在下载的数据，不重复请求。后台失败保持安静，进入相应地图时再尝试。年度事件明细仍按点击读取，避免首次访问下载全部目录。
+
+Chrome/WebKit 已通过 `tests/background-loading-browser.test.cjs`：首屏优先、输入焦点保持、地图复用、后台失败后的恢复。前台慢网/重试和四语言页面导航回归也已通过。部署方式不变，拉取后复制整个 dist。

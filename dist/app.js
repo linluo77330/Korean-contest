@@ -353,6 +353,7 @@
   $('#scrim').addEventListener('click',()=>{$('#sidebar').classList.remove('open');$('#scrim').classList.remove('show');});
   window.addEventListener('cloudbridge:language',()=>{if(ui.view==='underwriting'&&ui.uwTab==='risk'&&ui.mapModule==='m2'){render();document.getElementById('language-trigger')?.focus({preventScroll:true});}});
   window.addEventListener('storage',event=>{if(event.key!==KEY||!event.newValue)return;try{const incoming=JSON.parse(event.newValue);if(incoming.version===1&&Array.isArray(incoming.apps)&&incoming.model){state=incoming;state.archived||=[];closeModal();render(false);}}catch{toast('另一个标签页已更新档案，请刷新后继续，避免覆盖');}});
-  window.addEventListener('cloudbridge:risk-data',event=>{if(ui.view==='underwriting'&&ui.uwTab==='risk'&&event.detail===(ui.mapModule==='m2'?'m2':'m1'))render();});
+  window.addEventListener('cloudbridge:risk-data',event=>{if(ui.view==='underwriting'&&ui.uwTab==='risk'&&event.detail===(ui.mapModule==='m2'?'m2':'m1')&&document.querySelector('.risk-loading'))render();});
   render();
+  window.CBRiskAssets?.warm();
 })();

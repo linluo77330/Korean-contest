@@ -19,3 +19,5 @@ body[data-role="insurer"] :is(button,a,input,textarea,select):focus-visible{outl
 body[data-role="insurer"] :is(.select-trigger:focus-visible,.select-trigger[aria-expanded="true"]){border-color:#b7aa91;box-shadow:0 0 0 3px #b7aa9120}
 body[data-role="insurer"] :is(.select-option[aria-selected="true"],.language-menu button[aria-checked="true"]){background:#f4f1eb;color:#6f634f}
 body[data-role="insurer"] .language-menu button[aria-checked="true"] small{color:#796c55}
+
+.risk-loading{min-height:260px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;align-content:center;gap:14px;padding:40px 20px;background:#fafafa;border-radius:6px}.risk-loading h3,.risk-loading p{width:100%;text-align:center}.risk-loading p{color:#62666d}

@@ -73,3 +73,13 @@ node --test tests/engine.test.cjs tests/external-events.test.cjs tests/hazard-hi
 ## 核保入口与角色配色（2026-11-19）
 
 侧栏、投保快捷入口、提交问卷和载入组合投保单默认进入 Risk overview 01 / Global risk view。明确点击定价或保单时保留相应目标页。承保、理赔采用蓝色；核保、核赔与定价模型采用 PPT 对应的暖灰褐色强调，白灰底色及地图数据色阶保持。资源版本 `20261119-role1`。已通过 Chrome / WebKit 四语言入口、角色配色、手机宽度与完整赔案验证（`tests/role-navigation-browser.test.cjs`）。
+
+## 首屏与地图加载优化（2026-11-19）
+
+首屏脚本/样式由约 9.71 MB 降至 1.17 MB（减少约 88%），合并为两个请求。海岸线、M1 目录、M2 冲突与设施数据进入相应地图时才加载，完成后在当前会话内复用；地图加载中仍可打开定价及其他页面。失败可重试，晚到的数据不会抢回用户正在浏览的页面。
+
+现代浏览器通过 DecompressionStream 读取随站点发布的 `dist/packed/*.json.gz`，无需改 Nginx 压缩配置。M1 目录从 3.47 MB 降至 468 KB，冲突地图从 3.69 MB 降至 447 KB，设施目录从 707 KB 降至 39 KB；10 个年度事件文件同样无损压缩。file:// 或不支持压缩流的浏览器回退到原始脚本。
+
+**部署仍只需拉取并复制整个 dist 目录，必须包含 packed 文件夹与 app.bundle.js/css。** 已提交可直接部署的生成文件。开发者修改 dist 中的源 JS/CSS/数据后，须运行 `python3 scripts/build-web-assets.py` 重新生成 bundle、压缩数据和带内容版本号的入口；不要手工修改生成文件。顺序清单位于 `scripts/web-assets.json`。
+
+验证：`tests/lazy-loading-browser.test.cjs` 覆盖慢网、失败重试、压缩目录、缓存复用及兼容回退；`tests/role-navigation-browser.test.cjs` 覆盖 Chrome/WebKit 四语言导航、角色配色、手机布局及完整赔案。全部原始数据与压缩数据已核对一致。

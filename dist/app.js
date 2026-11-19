@@ -104,6 +104,11 @@
   function archiveDetail(id){const a=state.archived.find(a=>a.id===id);if(!a)return;const t=a.policy?.terms||a;modal('归档项目档案',`<div class="archive-summary"><h3>${user(a.company||'未命名企业')}</h3>${kv('项目编号',esc(a.id))}${kv('归档时间',esc(a.archivedAt))}${kv('项目状态',stageName(a))}${kv('保单编号',esc(a.policy?.id||'—'))}${kv('报价金额',a.quote?esc(a.currency)+' '+money(a.quote.total):'—')}${kv('赔案状态',a.claim?.paid?'已结案':a.claim?.submitted?'已报案':'未报案')}<h3>列明服务附表</h3>${t.services.map(s=>`<p data-user-text>${esc(s.provider+' · '+s.service+' · '+s.business)}</p>`).join('')}<h3>业务轨迹</h3>${historyView(a.history||[])}<details><summary>完整业务档案</summary><pre data-no-translate class="archive-json">${esc(JSON.stringify(a,null,2))}</pre></details></div>`,`<button class="btn" data-action="archives">返回归档</button><button class="btn" data-archive-export="${esc(id)}">导出</button><button class="btn primary" data-archive-restore="${esc(id)}">恢复项目</button>`);}
   function go(view,tab){ui.view=view;if(view==='underwriting')ui.uwTab=['risk','pricing','policy'].includes(tab)?tab:'risk';if(view==='claim')ui.claimTab=['report','loss','materials'].includes(tab)?tab:'report';if(tab){if(view==='underwriting')ui.uwTab=tab;if(view==='assessment')ui.reviewTab=tab;}render();window.scrollTo({top:0,behavior:'instant'});$('#sidebar').classList.remove('open');$('#scrim').classList.remove('show');}
   function worldMap(){
+    const group=ui.mapModule==='m2'?'m2':'m1';
+    if(window.CBRiskAssets&&!CBRiskAssets.ready(group)){
+      CBRiskAssets.ensure(group).catch(()=>{});
+      return `<div class='map-toolbar'><div class='segmented'><button data-map='m1' class='${group==='m1'?'active':''}'>M1 普通中断</button><button data-map='m2' class='${group==='m2'?'active':''}'>M2 外部事件中断</button></div></div><div class='risk-loading' role='status' aria-live='polite'><h3>${CBRiskAssets.failed(group)?'地图数据暂未加载完成':'正在加载地图数据…'}</h3><p>${CBRiskAssets.failed(group)?'请重试，或先查看定价明细。':'可以继续使用其他页面，加载完成后自动显示地图。'}</p>${CBRiskAssets.failed(group)?btn('重新加载','retry-risk-data'):''}${btn('查看定价明细','pricing-tab')}</div>`;
+    }
     if(ui.mapModule==='m2')return window.CBM2Map.render(app(),state.model,ui);
     return CBUnifiedUI.m1(app(),ui);
   }
@@ -197,6 +202,7 @@
     audit('支付结案 · '+module.toUpperCase()+' · ¥'+money(n));closeModal();render();toast('已支付并更新年度额度');
   }
   const actions={
+    'retry-risk-data':()=>{CBRiskAssets.retry(ui.mapModule==='m2'?'m2':'m1').catch(()=>{});render();},
     'archives':showArchives,
     'archive-current':archiveCurrent,
     'load-unified':()=>loadUnified('CBU-001'),
@@ -347,5 +353,6 @@
   $('#scrim').addEventListener('click',()=>{$('#sidebar').classList.remove('open');$('#scrim').classList.remove('show');});
   window.addEventListener('cloudbridge:language',()=>{if(ui.view==='underwriting'&&ui.uwTab==='risk'&&ui.mapModule==='m2'){render();document.getElementById('language-trigger')?.focus({preventScroll:true});}});
   window.addEventListener('storage',event=>{if(event.key!==KEY||!event.newValue)return;try{const incoming=JSON.parse(event.newValue);if(incoming.version===1&&Array.isArray(incoming.apps)&&incoming.model){state=incoming;state.archived||=[];closeModal();render(false);}}catch{toast('另一个标签页已更新档案，请刷新后继续，避免覆盖');}});
+  window.addEventListener('cloudbridge:risk-data',event=>{if(ui.view==='underwriting'&&ui.uwTab==='risk'&&event.detail===(ui.mapModule==='m2'?'m2':'m1'))render();});
   render();
 })();

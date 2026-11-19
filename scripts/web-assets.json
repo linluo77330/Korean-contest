@@ -1,0 +1,43 @@
+{
+  "scripts": [
+    "engine.js",
+    "external-events.js",
+    "data.js",
+    "world-map.js",
+    "select-ui.js",
+    "m2-risk.js",
+    "conflict-data.js",
+    "exposure-data.js",
+    "exposure-catalog.js",
+    "event-directory.js",
+    "hazard-history.js",
+    "m2-map.js",
+    "unified-data.js",
+    "pricing.js",
+    "unified-bootstrap.js",
+    "m1-public-data.js",
+    "m1-catalog.js",
+    "unified-ui.js",
+    "pricing-view.js",
+    "locales.js",
+    "upgrade-locales.js",
+    "external-locales.js",
+    "unified-locales.js",
+    "m1-locales.js",
+    "workflow-locales.js",
+    "conflict-locales.js",
+    "i18n.js",
+    "risk-assets.js",
+    "app.js"
+  ],
+  "styles": [
+    "style.css",
+    "ui-theme.css",
+    "m2-map.css",
+    "i18n.css",
+    "evidence-pricing.css",
+    "external-events.css",
+    "unified.css",
+    "role-theme.css"
+  ]
+}

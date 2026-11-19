@@ -435,3 +435,11 @@ Object.assign(window.CBLocaleMessages,{
 ["{0}（北京时间，终点不含）","{0} (Beijing time; end exclusive)","{0} (베이징 시간, 종료 시점 제외)","{0}（北京時間、終了時点を含まない）"],
 ["损失金额 {0} − 同损失补偿 {1}","Loss amount {0} − same-loss compensation {1}","손실 금액 {0} − 동일 손실 보상금 {1}","損失額 {0} − 同一損失への補償 {1}"]
 );
+
+Object.assign(window.CBLocaleMessages,{
+"正在加载地图数据…":["Loading map data…","지도 데이터를 불러오는 중…","地図データを読み込み中…"],
+"地图数据暂未加载完成":["Map data could not be loaded","지도 데이터를 불러오지 못했습니다","地図データを読み込めませんでした"],
+"请重试，或先查看定价明细。":["Retry, or continue to the pricing breakdown.","다시 시도하거나 보험료 내역을 먼저 확인하세요.","再試行するか、先に保険料内訳をご確認ください。"],
+"可以继续使用其他页面，加载完成后自动显示地图。":["You can use other pages while the map loads.","지도를 불러오는 동안 다른 페이지를 이용할 수 있습니다.","読み込み中も他のページを利用できます。"],
+"重新加载":["Retry loading","다시 불러오기","再読み込み"]
+});

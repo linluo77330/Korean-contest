@@ -65,3 +65,7 @@ node --test tests/engine.test.cjs tests/external-events.test.cjs tests/hazard-hi
 ```
 
 当前四语言和核赔浏览器验收入口：`tests/i18n-claims-browser.test.cjs`。需提供 `PLAYWRIGHT_MODULE`、`CHROME_PATH` 并启动本地服务。它使用独立会话，覆盖四语言页面、响应式布局、HTML 导出、事故报告优先以及 M1/M2 核定结案。其余浏览器测试含历史流程断言。
+
+## HTTP 新建投保兼容修复
+
+2026-11-19：新建投保、旧保单迁移和载入案例的编号生成兼容普通 HTTP 地址，不再依赖仅在安全上下文可用的 `crypto.randomUUID()`。资源版本为 `20261119-http1`。`tests/http-workspace-browser.test.cjs` 在非安全 HTTP 来源验证新建、保存、编号区分和 M2 案例载入。

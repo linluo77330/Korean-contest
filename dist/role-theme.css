@@ -1,0 +1,21 @@
+/* Presentation roles: insured blue, insurer warm taupe; retain neutral surfaces
+   and the semantic colors used by the risk maps and actuarial charts. */
+body[data-role="insurer"]{--brand:#796c55;--green:#796c55;--green-soft:#f4f1eb;--role-soft:#f4f1eb;--role-line:#dcd4c6}
+.nav-item:is([data-view="underwriting"],[data-view="assessment"],[data-view="model"]) .nav-icon{color:#8b7e68}
+body[data-role="insurer"] .nav-item.active{color:#6f634f;background:var(--role-soft)}
+body[data-role="insurer"] .nav-item.active :is(small,.step-no,.nav-icon){color:#796c55}
+body[data-role="insurer"] :is(.breadcrumb strong,.page-heading h1){color:#6f6555}
+body[data-role="insurer"] .breadcrumb>svg{color:#a99b80}
+body[data-role="insurer"] .btn:is(.primary,.dark){background:#796c55;border-color:#796c55;color:#fff}
+body[data-role="insurer"] .btn:is(.primary,.dark):hover{background:#675b47;border-color:#675b47}
+body[data-role="insurer"] .tabs button.active{color:#796c55;border-bottom-color:#a99b80}
+body[data-role="insurer"] :is(.segmented button.active,.m2-layer-tabs button.active){background:#f4f1eb;color:#6f634f;border-color:#dcd4c6}
+body[data-role="insurer"] :is(.badge.blue,.badge.green){background:#f4f1eb;border-color:#e3ddd2;color:#6f634f}
+body[data-role="insurer"] .case-strip{background:#fbfaf8;border-color:#e8e3d9}
+body[data-role="insurer"] .status-banner{background:#f8f6f1;border-color:#e3ddd2;color:#796c55}
+body[data-role="insurer"] .status-banner :is(strong,small,svg){color:#796c55}
+body[data-role="insurer"] :is(.doc-brand,.ola-details summary,.m1-upstream>summary,.evidence-explorer a){color:#796c55}
+body[data-role="insurer"] :is(button,a,input,textarea,select):focus-visible{outline-color:#b7aa91}
+body[data-role="insurer"] :is(.select-trigger:focus-visible,.select-trigger[aria-expanded="true"]){border-color:#b7aa91;box-shadow:0 0 0 3px #b7aa9120}
+body[data-role="insurer"] :is(.select-option[aria-selected="true"],.language-menu button[aria-checked="true"]){background:#f4f1eb;color:#6f634f}
+body[data-role="insurer"] .language-menu button[aria-checked="true"] small{color:#796c55}

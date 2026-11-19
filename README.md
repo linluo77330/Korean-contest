@@ -69,3 +69,7 @@ node --test tests/engine.test.cjs tests/external-events.test.cjs tests/hazard-hi
 ## HTTP 新建投保兼容修复
 
 2026-11-19：新建投保、旧保单迁移和载入案例的编号生成兼容普通 HTTP 地址，不再依赖仅在安全上下文可用的 `crypto.randomUUID()`。资源版本为 `20261119-http1`。`tests/http-workspace-browser.test.cjs` 在非安全 HTTP 来源验证新建、保存、编号区分和 M2 案例载入。
+
+## 核保入口与角色配色（2026-11-19）
+
+侧栏、投保快捷入口、提交问卷和载入组合投保单默认进入 Risk overview 01 / Global risk view。明确点击定价或保单时保留相应目标页。承保、理赔采用蓝色；核保、核赔与定价模型采用 PPT 对应的暖灰褐色强调，白灰底色及地图数据色阶保持。资源版本 `20261119-role1`。已通过 Chrome / WebKit 四语言入口、角色配色、手机宽度与完整赔案验证（`tests/role-navigation-browser.test.cjs`）。
